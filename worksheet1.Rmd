@@ -1,0 +1,67 @@
+---
+title: "worksheet1"
+author: "Litian Deng"
+date: "2022-10-18"
+output: pdf_document
+---
+
+##question1:
+
+Count the types of things I'm doing online (column "transType" in the wbdata). What is my most frequent type of interaction with the web?
+
+```{r}
+wbdata <- jsonlite::fromJSON(gzcon(url("https://github.com/cjbarrie/CS-ED/blob/main/data/web_historian_data.json?raw=true")))
+
+wbdata_short <- wbdata %>% 
+  select(domain, searchTerms, urlId, transType)
+
+wbdata %>% 
+  group_by(transType) %>%
+  count() 
+
+wbdata %>% 
+  group_by(transType) %>%
+  count() %>%
+  arrange(desc(n))
+
+
+wbdata_mp <- wbdata %>% 
+  group_by(transType) %>%
+  count() %>%
+  filter(n >2)
+
+wbdata_mp %>%
+  ggplot() +
+  geom_bar(aes(transType, n), stat = "identity") +
+  coord_flip()
+```
+##question2:
+Change the colour of the bars in the bar graph.
+
+```{r}
+wbdata <- jsonlite::fromJSON(gzcon(url("https://github.com/cjbarrie/CS-ED/blob/main/data/web_historian_data.json?raw=true")))
+
+wbdata_short <- wbdata %>% 
+  select(domain, searchTerms, urlId)
+
+wbdata %>% 
+  group_by(domain) %>%
+  count() 
+
+wbdata %>% 
+  group_by(domain) %>%
+  count() %>%
+  arrange(desc(n))
+
+wbdata_mp <- wbdata %>% 
+  group_by(domain) %>%
+  count() %>%
+  filter(n >5)
+
+wbdata_mp %>%
+  ggplot() +
+  geom_bar(aes(domain, n), stat = "identity", color = "red") +
+  coord_flip()
+
+```
+
