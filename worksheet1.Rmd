@@ -35,8 +35,8 @@ wbdata_mp %>%
   geom_bar(aes(transType, n), stat = "identity") +
   coord_flip()
 ```
-##question2:
-Change the colour of the bars in the bar graph.
+
+##question2: Change the colour of the bars in the bar graph.
 
 ```{r}
 wbdata <- jsonlite::fromJSON(gzcon(url("https://github.com/cjbarrie/CS-ED/blob/main/data/web_historian_data.json?raw=true")))
@@ -60,8 +60,27 @@ wbdata_mp <- wbdata %>%
 
 wbdata_mp %>%
   ggplot() +
-  geom_bar(aes(domain, n), stat = "identity", color = "red") +
+  geom_bar(aes(domain, n), stat = "identity", color = "blue", fill = "blue") +
   coord_flip()
 
 ```
 
+##question3: Count how many "left" nodes there are and how many "right" nodes there are.
+
+```{r}
+library(igraph)
+library(tidygraph)
+library(dplyr)
+library(RColorBrewer)
+library(classInt)
+
+
+nodes <- read.table(url("https://github.com/cjbarrie/CS-ED/blob/main/data/all.nodes.txt?raw=true"))
+
+
+nodes %>% 
+  group_by(V2) %>%
+  count() 
+```
+
+##question4 Add arrows to the network plot and increase their width
